@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NexCalc Compact - Premium Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark bg-slate-950 text-slate-100 h-screen w-screen flex items-center justify-center p-3 md:p-6 select-none">
+    
+    <div class="fixed top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="glass relative z-10 rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col w-full max-w-md h-full max-h-[85vh] md:max-h-[800px] border-white/10">
+        
+        <div class="p-4 flex justify-between items-center bg-white/5 shrink-0">
+            <button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-xl" title="Toggle Theme">
+                ☼
+            </button>
+            <div class="flex gap-2">
+                <button id="sound-toggle" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-xl" title="Toggle Sound">
+                    ☊
+                </button>
+                <button id="history-btn" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-xl" title="History">
+                    🕒
+                </button>
+            </div>
+        </div>
+
+        <div class="flex-1 px-6 py-4 flex flex-col justify-end text-right min-h-[120px]">
+            <div id="formula-preview" class="text-slate-500 text-base md:text-lg mono h-6 overflow-hidden opacity-80"></div>
+            <div id="primary-display" class="text-5xl md:text-7xl font-light mono mt-1 tracking-tighter truncate w-full">0</div>
+        </div>
+
+        <div class="flex-[2] p-4 md:p-6 bg-black/40 backdrop-blur-md grid grid-cols-4 gap-3 border-t border-white/5">
+            <button data-key="Escape" class="calc-btn bg-white/5 hover:bg-white/10 text-rose-400 rounded-2xl text-lg font-semibold">AC</button>
+            <button data-key="Backspace" class="calc-btn bg-white/5 hover:bg-white/10 text-slate-300 rounded-2xl text-xl">⌫</button>
+            <button data-key="%" class="calc-btn bg-white/5 hover:bg-white/10 text-slate-300 rounded-2xl text-xl">%</button>
+            <button data-key="/" class="calc-btn bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 rounded-2xl text-2xl font-bold">÷</button>
+            
+            <button data-key="7" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">7</button>
+            <button data-key="8" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">8</button>
+            <button data-key="9" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">9</button>
+            <button data-key="*" class="calc-btn bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 rounded-2xl text-2xl font-bold">×</button>
+
+            <button data-key="4" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">4</button>
+            <button data-key="5" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">5</button>
+            <button data-key="6" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">6</button>
+            <button data-key="-" class="calc-btn bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 rounded-2xl text-2xl font-bold">−</button>
+
+            <button data-key="1" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">1</button>
+            <button data-key="2" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">2</button>
+            <button data-key="3" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">3</button>
+            <button data-key="+" class="calc-btn bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 rounded-2xl text-2xl font-bold">+</button>
+
+            <button data-key="±" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-xl">±</button>
+            <button data-key="0" class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">0</button>
+            <button data-key="." class="calc-btn bg-white/5 hover:bg-white/10 rounded-2xl text-2xl">.</button>
+            <button data-key="Enter" class="calc-btn bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-2xl text-3xl font-bold shadow-[0_0_30px_rgba(6,182,212,0.3)]">=</button>
+        </div>
+
+        <div id="history-drawer" class="history-drawer absolute inset-0 bg-slate-900/95 backdrop-blur-3xl translate-y-full z-20 flex flex-col">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Activity History</h2>
+                <button id="close-history" class="p-2 hover:bg-white/10 rounded-full transition-colors">✕</button>
+            </div>
+            <div id="history-list" class="flex-1 overflow-y-auto p-6 space-y-3">
+                <div class="text-slate-500 text-center mt-10">No recent logs.</div>
+            </div>
+            <div class="p-6 bg-black/20">
+                <button id="clear-history" class="w-full py-4 bg-white/5 hover:bg-rose-500/20 hover:text-rose-400 rounded-2xl transition-all font-medium">Clear History</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
